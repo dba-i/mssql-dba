@@ -2,6 +2,26 @@
 
 The server provides a functionality to handle DBA tasks for SQL Server database, such as analyzing tables, assesing index health, and finding missing indices. Many more tasks are upcoming. **Currently we support only SQL Server Authenitcation** method.
 
+## Prerequisites
+Create a user with these permissions:
+
+```sql
+USE [master];
+GO
+
+CREATE LOGIN [dbai] WITH PASSWORD = 'YourStrongPasswordHere';
+GO
+
+GRANT VIEW SERVER STATE TO [dbai];
+GO
+
+USE [YourDatabase];
+GO
+
+CREATE USER [dbai] FOR LOGIN [dbai];
+GO
+```
+
 ## Features
 
 - **Table Metadata Retrieval**
