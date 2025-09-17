@@ -20,6 +20,9 @@ GO
 
 CREATE USER [dbai] FOR LOGIN [dbai];
 GO
+
+GRANT VIEW DEFINITION TO [dbai];
+GO
 ```
 
 ## Features
