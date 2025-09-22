@@ -7,7 +7,7 @@
     "url": "https://github.com/dba-i/mssql-dba",
     "source": "github"
   },
-  "version": "1.0.8",
+  "version": "1.0.0",
   "packages": [
     {
       "registry_type": "npm",
