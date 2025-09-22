@@ -1,7 +1,8 @@
 {
   "name": "@dba-i/mssql-dba",
   "mcpName": "io.github.dba-i/mssql-dba",
-  "version": "1.0.4",
+  "version": "1.0.5",
+  "bugs": "https://github.com/dba-i/mssql-dba/issues",
   "main": "build/index.js",
   "type": "module",
   "bin": {

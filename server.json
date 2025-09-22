@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
   "name": "io.github.dba-i/mssql-dba",
-  "description": "An MCP server that provides [describe what your server does]",
+  "description": "An MCP server that provides tools and prompts for Microsoft SQL Server database administration.",
   "status": "active",
   "repository": {
     "url": "https://github.com/dba-i/mssql-dba",
