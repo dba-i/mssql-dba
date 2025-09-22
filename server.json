@@ -10,22 +10,12 @@
   "version": "1.0.0",
   "packages": [
     {
-      "registry_type": "npm",
-      "registry_base_url": "https://registry.npmjs.org",
+      "registryType": "npm",
       "identifier": "@dba-i/mssql-dba",
       "version": "1.0.8",
       "transport": {
         "type": "stdio"
-      },
-      "environment_variables": [
-        {
-          "description": "Your API key for the service",
-          "is_required": true,
-          "format": "string",
-          "is_secret": true,
-          "name": "YOUR_API_KEY"
-        }
-      ]
+      }
     }
   ]
 }
