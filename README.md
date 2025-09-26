@@ -47,7 +47,7 @@ There is a partial list of existing clients at [modelcontextprotocol.io](https:/
   "mcpServers": {
     "mssql-dba": {
       "command": "npx",
-      "args": ["mssql-dba"],
+      "args": ["@dba-i/mssql-dba"],
       "env": {
         // Required Parameters
         "DB_HOST": "host",
