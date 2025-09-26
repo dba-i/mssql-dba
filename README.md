@@ -1,6 +1,6 @@
 # MSSQL DBA MCP Stdio Server
 
-The server provides a functionality to handle DBA tasks for SQL Server database, such as analyzing tables, assesing index health, and finding missing indices. Many more tasks are upcoming. **Currently we support only SQL Server Authenitcation** method. For feedback, questions or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
+The server provides context to an LLM that empowers models to compete various Database Administration tasks, such as improving table health, optimizing existing indices and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
 
 ## Prerequisites
 Create a user with these permissions:
@@ -27,16 +27,18 @@ GO
 
 ## Features
 
+- **Query Optimization Prompt**
 - **Table Metadata Retrieval**
 - **Index Health Assessment**
 - **Missing Index Detection**
-- **Query Optimization Prompt**
 
 ## Configuration
 
 ### Usage with MCP Client
 
 There is a partial list of existing clients at [modelcontextprotocol.io](https://modelcontextprotocol.io/clients). Consult their documentation to install the MCP server.
+
+**Currently we support only SQL Server Authenitcation** method.
 
 **Example setup for Claude Code:** Add this to your `claude_desktop_config.json`:
 
