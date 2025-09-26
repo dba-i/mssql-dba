@@ -1,6 +1,6 @@
 # MSSQL DBA MCP Stdio Server
 
-The server provides a functionality to handle DBA tasks for SQL Server database, such as analyzing tables, assesing index health, and finding missing indices. Many more tasks are upcoming. **Currently we support only SQL Server Authenitcation** method. Please join our [Discord](https://discord.gg/Fs3Nqpgx) and share your feedback!
+The server provides a functionality to handle DBA tasks for SQL Server database, such as analyzing tables, assesing index health, and finding missing indices. Many more tasks are upcoming. **Currently we support only SQL Server Authenitcation** method. For feedback, questions or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
 
 ## Prerequisites
 Create a user with these permissions:
