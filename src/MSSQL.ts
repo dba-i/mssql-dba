@@ -16,14 +16,39 @@ export interface MSSQLConfig {
 
 /**
  * Represents a connection to an MSSQL database.
+ * Singleton pattern ensures only one instance exists.
  */
 export class MSSQL {
+  private static instance: MSSQL | null = null;
   private pool: sql.ConnectionPool | null = null;
   private config: MSSQLConfig;
 
-  constructor(config: MSSQLConfig) {
+  private constructor(config: MSSQLConfig) {
     this.config = config;
   }
+
+  /**
+   * Gets the singleton instance of MSSQL.
+   * @param config - Configuration for the database connection (required on first call)
+   * @returns The singleton instance
+   */
+  public static getInstance(config: MSSQLConfig): MSSQL {
+    if (!MSSQL.instance) {
+      MSSQL.instance = new MSSQL(config);
+    }
+    return MSSQL.instance;
+  }
+
+  /**
+   * Resets the singleton instance (useful for testing or reconfiguration).
+   */
+  public static resetInstance(): void {
+    if (MSSQL.instance?.pool) {
+      MSSQL.instance.pool.close();
+    }
+    MSSQL.instance = null;
+  }
+
   async executeQuery<T>({
     query,
     parameters,

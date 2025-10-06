@@ -37,7 +37,7 @@ const mssqlConfig: MSSQLConfig = {
     idleTimeoutMillis: process.env.IDLE ? parseInt(process.env.IDLE) : 30000,
   },
 };
-const db = new MSSQL(mssqlConfig);
+const db = MSSQL.getInstance(mssqlConfig);
 
 // Table-level tools
 mcpServer.registerTool(
