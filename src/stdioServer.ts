@@ -1,5 +1,6 @@
 import { getTablesMissingIndices } from './features/informationTools/tableLevelTools/getTablesMissingIndices.js';
 import { getTablesIndexHealth } from './features/informationTools/tableLevelTools/getTablesIndexHealth.js';
+import { getServerInfo } from './features/informationTools/serverLevelTools/getServerInfo.js';
 import { getTablesInfo } from './features/informationTools/tableLevelTools/getTablesInfo.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { MSSQL, MSSQLConfig } from './MSSQL.js';
@@ -51,7 +52,7 @@ mcpServer.registerTool(
       content: [
         {
           type: 'text',
-          text: `You are provided with metadata about specified tables, in the form of JSON. Tables info: ${tablesInfo}`,
+          text: tablesInfo,
         },
       ],
     };
@@ -71,7 +72,7 @@ mcpServer.registerTool(
       content: [
         {
           type: 'text',
-          text: `You are provided with index health information on specified tables, in the form of JSON. Index health: ${indexHealth}`,
+          text: indexHealth,
         },
       ],
     };
@@ -91,7 +92,26 @@ mcpServer.registerTool(
       content: [
         {
           type: 'text',
-          text: `You are provided with missing indices on the specified tables, in the form of JSON. Missing indices: ${missingIndices}`,
+          text: missingIndices,
+        },
+      ],
+    };
+  }
+);
+mcpServer.registerTool(
+  'get-server-info',
+  {
+    title: 'Get Server Info',
+    description: 'Retrieve information about the SQL Server instance such as version, current update level, edition, and licensing details',
+    inputSchema: {},
+  },
+  async () => {
+    const serverInfo = await getServerInfo({ db });
+    return {
+      content: [
+        {
+          type: 'text',
+          text: serverInfo,
         },
       ],
     };
