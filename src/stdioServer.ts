@@ -38,7 +38,6 @@ const mssqlConfig: MSSQLConfig = {
   },
 };
 const db = new MSSQL(mssqlConfig);
-await db.connect();
 
 // Table-level tools
 mcpServer.registerTool(
