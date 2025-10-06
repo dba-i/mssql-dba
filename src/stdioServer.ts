@@ -62,7 +62,7 @@ mcpServer.registerPrompt(
 
             Schema-level optimizations should be written in a separate file called "{QUERY FILE NAME}-schema-optimizations.sql". Document every optimization you suggest so the user understands why it is necessary. Always include the code to update statistics on the tables that were optimized.
 
-            Query code changes should be written to the file called "{QUERY FILE NAME}-optimized.sql".
+            Save the original query to the new file called "{QUERY FILE NAME}-original.sql" and after that apply query modifications in the original file.
 
             When creating new indices, ensure they are placed within the context of existing indices. Double-check that your suggestions do not overlap with existing indices. If you notice redundant or unnecessary existing indexes, suggest removing them. If suggested indices are provided, consider them, analyze whether they can provide value, and include them if necessary. If some indices are less valuable, drop them and create recommended options. However, be sure to pay attention to avoid making redundant indices. 
 
