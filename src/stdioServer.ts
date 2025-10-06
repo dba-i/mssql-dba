@@ -46,7 +46,7 @@ mcpServer.registerPrompt(
   {
     title: 'Optimize Query',
     description: 'Optimize SQL queries for better performance',
-    argsSchema: { query: z.string() },
+    argsSchema: {},
   },
   () => ({
     messages: [
