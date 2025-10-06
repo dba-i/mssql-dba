@@ -162,12 +162,6 @@ SELECT
     END AS [Should Create],
     decisionReason AS [Reason],
     -- Impact Analysis
-    CAST(
-    CASE 
-        WHEN improvementScore > 2000000000 THEN 2000000000
-        ELSE improvementScore
-    END AS INT
-) AS [Impact Score],
     expectedImprovementPercent AS [Improvement %],
     queriesThatWouldBenefit AS [Query Uses],
     -- Time Analysis
@@ -197,44 +191,7 @@ SELECT
     -- Index columns
     ISNULL(equality_columns, '') AS [Equality Columns],
     ISNULL(inequality_columns, '') AS [Inequality Columns],
-    ISNULL(included_columns, '') AS [Included Columns],
-    -- Generate CREATE INDEX statement based on priority (Updated logic)
-    CASE
-    -- Generate for CRITICAL and HIGH priority even if shouldCreateIndex = 0
-        WHEN priority IN ('CRITICAL', 'HIGH')
-        OR shouldCreateIndex = 1 THEN 'CREATE NONCLUSTERED INDEX [IX_' + tableName + '_' + REPLACE(
-            REPLACE(
-                REPLACE(
-                    ISNULL(LEFT(equality_columns, 20), '') + ISNULL(LEFT(inequality_columns, 20), ''),
-                    '[',
-                    ''
-                ),
-                ']',
-                ''
-            ),
-            ', ',
-            '_'
-        ) + '_' + CONVERT(VARCHAR(8), GETDATE(), 112) + '] ' + 'ON [dbo].[' + tableName + '] (' + ISNULL(equality_columns, '') + CASE
-            WHEN equality_columns IS NOT NULL
-            AND inequality_columns IS NOT NULL THEN ','
-            ELSE ''
-        END + ISNULL(inequality_columns, '') + ')' + ISNULL(' INCLUDE (' + included_columns + ')', '') + ' WITH (' + 'FILLFACTOR = ' + CAST(recommendedFillFactor AS VARCHAR(3)) + ', ' + 'PAD_INDEX = ' + recommendedPadIndex + ', ' + 'SORT_IN_TEMPDB = ON, ' + 'STATISTICS_NORECOMPUTE = OFF, ' + 'DROP_EXISTING = OFF, ' + 'ONLINE = ON, ' + -- Always ON
-        'ALLOW_ROW_LOCKS = ' + CASE
-            WHEN readWriteRatio < 1 THEN 'OFF'
-            ELSE 'ON'
-        END + ', ' + 'ALLOW_PAGE_LOCKS = ' + CASE
-            WHEN readWriteRatio < 0.1 THEN 'OFF'
-            ELSE 'ON'
-        END + ', ' + 'MAXDOP = 4, ' + -- Always 4
-        'DATA_COMPRESSION = ' + CASE
-            WHEN [rowCount] > 100000
-            AND readWriteRatio >= 10 THEN 'PAGE'
-            WHEN [rowCount] > 100000
-            AND readWriteRatio >= 1 THEN 'ROW'
-            ELSE 'NONE'
-        END + ');'
-        ELSE ''
-    END AS [CREATE INDEX Statement]
+    ISNULL(included_columns, '') AS [Included Columns]
 FROM
     IndexRecommendations
 WHERE

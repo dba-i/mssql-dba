@@ -305,50 +305,8 @@ SELECT
         WHEN healthStatus = 'NEEDS_REBUILD' THEN 'HIGH - Rebuild'
         WHEN healthStatus = 'NEEDS_REORGANIZE' THEN 'MEDIUM - Reorganize'
         WHEN healthStatus IN ('FILLFACTOR_TOO_LOW', 'FILLFACTOR_TOO_HIGH') THEN 'MEDIUM - Adjust Fill Factor'
-        ELSE 'LOW - No Action Needed'
+        ELSE 'LOW'
     END AS [Maintenance Priority],
-    -- Detailed reason for recommendation
-    CASE
-        WHEN totalReads = 0
-        AND is_unique = 0 THEN 'Index has never been used and is consuming ' + CASE
-            WHEN indexSizeBytes >= 1073741824 THEN FORMAT(
-                CAST(indexSizeBytes / 1073741824.0 AS DECIMAL(10, 2)),
-                'N2'
-            ) + ' GB'
-            WHEN indexSizeBytes >= 1048576 THEN FORMAT(
-                CAST(indexSizeBytes / 1048576.0 AS DECIMAL(10, 2)),
-                'N2'
-            ) + ' MB'
-            ELSE FORMAT(
-                CAST(indexSizeBytes / 1024.0 AS DECIMAL(10, 2)),
-                'N2'
-            ) + ' KB'
-        END + ' of storage. Safe to drop.'
-        WHEN totalReads = 0
-        AND is_unique = 1 THEN 'Unique index has never been used for queries. Review if uniqueness constraint is still needed. Size: ' + CASE
-            WHEN indexSizeBytes >= 1073741824 THEN FORMAT(
-                CAST(indexSizeBytes / 1073741824.0 AS DECIMAL(10, 2)),
-                'N2'
-            ) + ' GB'
-            WHEN indexSizeBytes >= 1048576 THEN FORMAT(
-                CAST(indexSizeBytes / 1048576.0 AS DECIMAL(10, 2)),
-                'N2'
-            ) + ' MB'
-            ELSE FORMAT(
-                CAST(indexSizeBytes / 1024.0 AS DECIMAL(10, 2)),
-                'N2'
-            ) + ' KB'
-        END
-        WHEN fragmentationPercent > 30 THEN 'High fragmentation (' + FORMAT(fragmentationPercent, 'N1') + '%) is degrading performance. Rebuild recommended.'
-        WHEN fragmentationPercent > 10 THEN 'Moderate fragmentation (' + FORMAT(fragmentationPercent, 'N1') + '%) detected. Reorganize to improve performance.'
-        WHEN actualFillFactor != optimalFillFactor
-        AND ABS(actualFillFactor - optimalFillFactor) > 10 THEN 'Fill factor mismatch: Current=' + CAST(actualFillFactor AS VARCHAR(3)) + '%, Optimal=' + CAST(optimalFillFactor AS VARCHAR(3)) + '% based on ' + CASE
-            WHEN readWriteRatio >= 10 THEN 'read-heavy'
-            WHEN readWriteRatio >= 1 THEN 'balanced'
-            ELSE 'write-heavy'
-        END + ' workload pattern.'
-        ELSE 'Index is performing well with good fragmentation levels and appropriate fill factor.'
-    END AS [Detailed Analysis],
     -- Generate maintenance script
     CASE
         WHEN totalReads = 0
