@@ -13,7 +13,6 @@ export async function getServerInfo({
     SERVERPROPERTY('ProductLevel') AS [Product Level],
     SERVERPROPERTY('ProductUpdateLevel') AS [Product Update Level],
     SERVERPROPERTY('ProductUpdateReference') AS [Product Update Reference],
-    SERVERPROPERTY('ProductBuild') AS [Product Build],    
     -- Edition Information
     CASE SERVERPROPERTY('EngineEdition')
         WHEN 1 THEN 'Personal or Desktop Engine'
@@ -34,18 +33,18 @@ export async function getServerInfo({
     
     -- Server Information
     SERVERPROPERTY('ServerName') AS [Server Name],
-    SERVERPROPERTY('MachineName') AS [Machine Name],
+    SERVERPROPERTY('Collation') AS [Server Collation],
     SERVERPROPERTY('IsClustered') AS [Is Clustered],
     SERVERPROPERTY('IsHadrEnabled') AS [Is HADR Enabled],
     SERVERPROPERTY('HadrManagerStatus') AS [HADR Manager Status],
     
     -- Licensing Information
     SERVERPROPERTY('LicenseType') AS [License Type],
-    SERVERPROPERTY('NumLicenses') AS [Number of Licenses],`;
+    SERVERPROPERTY('NumLicenses') AS [Number of Licenses]`;
 
   const result = await db.executeQuery({ query });
   if (!result || result.length === 0) {
-    return 'No tables found with the specified names.';
+    return 'No server information found.';
   }
   return JSON.stringify(result, null, 2);
 }

@@ -1,7 +1,9 @@
 import { getTablesMissingIndices } from './features/informationTools/tableLevelTools/getTablesMissingIndices.js';
+import { getCollationMismatches } from './features/informationTools/dbLevelTools/getCollationMismatches.js';
 import { getTablesIndexHealth } from './features/informationTools/tableLevelTools/getTablesIndexHealth.js';
 import { getServerInfo } from './features/informationTools/serverLevelTools/getServerInfo.js';
 import { getTablesInfo } from './features/informationTools/tableLevelTools/getTablesInfo.js';
+import { getDbCollation } from './features/informationTools/dbLevelTools/getDbCollation.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { MSSQL, MSSQLConfig } from './MSSQL.js';
 import { z } from 'zod';
@@ -112,6 +114,45 @@ mcpServer.registerTool(
         {
           type: 'text',
           text: serverInfo,
+        },
+      ],
+    };
+  }
+);
+// Database-level tools
+mcpServer.registerTool(
+  'get-db-collation',
+  {
+    title: 'Get Database Collation',
+    description: 'Retrieve the collation setting for the current database',
+    inputSchema: {},
+  },
+  async () => {
+    const dbCollation = await getDbCollation({ db });
+    return {
+      content: [
+        {
+          type: 'text',
+          text: dbCollation,
+        },
+      ],
+    };
+  }
+);
+mcpServer.registerTool(
+  'get-collation-mismatches',
+  {
+    title: 'Get Collation Mismatches',
+    description: 'Retrieve the columns with collation settings that differ from the database default',
+    inputSchema: {},
+  },
+  async () => {
+    const collationMismatches = await getCollationMismatches({ db });
+    return {
+      content: [
+        {
+          type: 'text',
+          text: collationMismatches,
         },
       ],
     };

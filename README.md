@@ -2,6 +2,27 @@
 
 The server provides context to an LLM that empowers models to compete various Database Administration tasks, such as improving table health, optimizing existing indices and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
+  - [Usage with MCP Client](#usage-with-mcp-client)
+    - [npx](#npx)
+- [Prompts](#prompts)
+  - [1. Optimize Query](#1-optimize-query)
+- [Tools](#tools)
+  - [Table-Level Tools](#table-level-tools)
+    - [1. Get Tables Info](#1-get-tables-info)
+    - [2. Get Tables Index Health](#2-get-tables-index-health)
+    - [3. Get Tables Missing Indices](#3-get-tables-missing-indices)
+  - [Server-Level Tools](#server-level-tools)
+    - [4. Get Server Info](#4-get-server-info)
+  - [Database-Level Tools](#database-level-tools)
+    - [5. Get Database Collation](#5-get-database-collation)
+    - [6. Get Collation Mismatches](#6-get-collation-mismatches)
+- [License](#license)
+- [Contact](#contact)
+
 ## Prerequisites
 Create a user with these permissions:
 
@@ -24,13 +45,6 @@ GO
 GRANT VIEW DEFINITION TO [dbai];
 GO
 ```
-
-## Features
-
-- **Query Optimization Prompt**
-- **Table Metadata Retrieval**
-- **Index Health Assessment**
-- **Missing Index Detection**
 
 ## Configuration
 
@@ -76,17 +90,20 @@ There is a partial list of existing clients at [modelcontextprotocol.io](https:/
 - **Name:** `optimize-query`
 - **Description:** Optimize SQL queries for better performance.
 - **Input:**
-  - `query` (string): The SQL query to optimize.
+  - `query`: The SQL query to optimize.
 - **Behavior:**
-  - Fetches schema information for tables involved in the query.
+  - Identifies tables involved in the query and fetches comprehensive schema information.
+  - Analyzes existing indices and identifies potential redundancies or missing indices.
   - Suggests schema-level optimizations and highlights query inefficiencies.
-  - Provides step-by-step guidance for improvements, prioritizing schema-level changes.
+  - Generates optimized query files and schema optimization scripts with detailed documentation.
 
 ## Tools
 
-The MCP server exposes the following tools:
+The MCP server exposes the following tools organized by scope:
 
-### 1. Get Tables Info
+### Table-Level Tools
+
+#### 1. Get Tables Info
 
 - **Name:** `get-tables-info`
 - **Description:** Get the metadata about specified tables.
@@ -95,7 +112,7 @@ The MCP server exposes the following tools:
 - **Output:**
   - JSON metadata about the specified tables.
 
-### 2. Get Tables Index Health
+#### 2. Get Tables Index Health
 
 - **Name:** `get-tables-index-health`
 - **Description:** Assess index health for specified tables.
@@ -104,14 +121,45 @@ The MCP server exposes the following tools:
 - **Output:**
   - JSON with index health information for the specified tables.
 
-### 3. Get Tables Missing Indices
+#### 3. Get Tables Missing Indices
 
 - **Name:** `get-tables-missing-indices`
 - **Description:** Identify missing indices for specified tables.
 - **Input:**
   - `tableNames` (array of strings): Names of the tables to check for missing indices.
 - **Output:**
-  - JSON with missing indices and suggested `CREATE INDEX` statements.
+  - JSON with missing indices.
+
+### Server-Level Tools
+
+#### 4. Get Server Info
+
+- **Name:** `get-server-info`
+- **Description:** Retrieve information about the SQL Server instance such as version, current update level, edition, and licensing details.
+- **Input:**
+  - No input parameters required.
+- **Output:**
+  - JSON with comprehensive SQL Server instance information.
+
+### Database-Level Tools
+
+#### 5. Get Database Collation
+
+- **Name:** `get-db-collation`
+- **Description:** Retrieve the collation setting for the current database.
+- **Input:**
+  - No input parameters required.
+- **Output:**
+  - JSON with the database's collation information.
+
+#### 6. Get Collation Mismatches
+
+- **Name:** `get-collation-mismatches`
+- **Description:** Retrieve the columns with collation settings that differ from the database default.
+- **Input:**
+  - No input parameters required.
+- **Output:**
+  - JSON with information about columns that have collation mismatches with the database default.
 
 ## License
 
