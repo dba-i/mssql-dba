@@ -230,14 +230,6 @@ SELECT
         ) + ' KB'
         ELSE FORMAT(indexSizeBytes, 'N0') + ' Bytes'
     END AS [Index Size],
-    FORMAT(pageCount, 'N0') AS [Page Count],
-    FORMAT(recordCount, 'N0') AS [Record Count],
-    -- Page space efficiency
-    CASE
-        WHEN avgPageSpaceUsed < 50 THEN 'Low (' + FORMAT(avgPageSpaceUsed, 'N1') + '%)'
-        WHEN avgPageSpaceUsed < 70 THEN 'Fair (' + FORMAT(avgPageSpaceUsed, 'N1') + '%)'
-        ELSE 'Good (' + FORMAT(avgPageSpaceUsed, 'N1') + '%)'
-    END AS [Page Space Efficiency],
     -- Fill Factor Analysis
     CAST(actualFillFactor AS VARCHAR(3)) AS [Current Fill Factor %],
     CAST(optimalFillFactor AS VARCHAR(3)) AS [Recommended Fill Factor %],
@@ -331,7 +323,7 @@ SELECT
             ELSE 'NONE'
         END + ');'
         WHEN fragmentationPercent > 10 THEN 'ALTER INDEX [' + indexName + '] ON [dbo].[' + tableName + '] REORGANIZE;'
-        ELSE '-- No maintenance required'
+        ELSE ''
     END AS [Maintenance Script]
 FROM
     IndexHealthAssessment
