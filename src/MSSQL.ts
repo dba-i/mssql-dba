@@ -82,10 +82,4 @@ export class MSSQL {
   isConnected(): boolean {
     return this.pool !== null;
   }
-
-  ensureConnected(): void {
-    if (!this.isConnected()) {
-      throw new Error('Database connection is not established.');
-    }
-  }
 }

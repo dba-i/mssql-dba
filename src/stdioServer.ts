@@ -41,7 +41,6 @@ const db = MSSQL.getInstance(mssqlConfig);
 
 /* Prompts
 --------------------------------------------------*/
-// Optimize Query Prompt
 mcpServer.registerPrompt(
   'optimize-query',
   {
