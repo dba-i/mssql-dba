@@ -1,6 +1,4 @@
 import sql from 'mssql';
-import fs from 'fs';
-
 export interface MSSQLConfig {
   user: string;
   password: string;
