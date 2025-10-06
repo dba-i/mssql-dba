@@ -39,6 +39,42 @@ const mssqlConfig: MSSQLConfig = {
 };
 const db = MSSQL.getInstance(mssqlConfig);
 
+/* Prompts
+--------------------------------------------------*/
+// Optimize Query Prompt
+mcpServer.registerPrompt(
+  'optimize-query',
+  {
+    title: 'Optimize Query',
+    description: 'Optimize SQL queries for better performance',
+    argsSchema: { query: z.string() },
+  },
+  () => ({
+    messages: [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text: `
+            You will be provided with an MSSQL query. First, identify the tables involved in the query; it is imperative not to omit any tables. Fetch the schema information for the tables involved in the query using only tools from the 'mssql-dba' MCP server. If no query is provided, inform the user that a query is necessary to proceed. 
+
+            Once you have relevant context about the database, suggest database schema-level optimizations and optimize the query efficiency on the code level. Verify your assumptions and suggestions against the provided data, and take as much time as needed to think.
+
+            Schema-level optimizations should be written in a separate file called "{QUERY FILE NAME}-schema-optimizations.sql". Document every optimization you suggest so the user understands why it is necessary. Always include the code to update statistics on the tables that were optimized.
+
+            Query code changes should be written to the file called "{QUERY FILE NAME}-optimized.sql".
+
+            When creating new indices, ensure they are placed within the context of existing indices. Double-check that your suggestions do not overlap with existing indices. If you notice redundant or unnecessary existing indexes, suggest removing them. If suggested indices are provided, consider them, analyze whether they can provide value, and include them if necessary. If some indices are less valuable, drop them and create recommended options. However, be sure to pay attention to avoid making redundant indices. 
+
+            Focus on strategic index optimization. For example, if the query is parametrized, do not optimize for the current values. Instead, focus on optimization that would benefit the query regardless of the values.
+          `,
+        },
+      },
+    ],
+  })
+);
+/* Tools
+--------------------------------------------------*/
 // Table-level tools
 mcpServer.registerTool(
   'get-tables-info',
@@ -99,11 +135,13 @@ mcpServer.registerTool(
     };
   }
 );
+// Server-level tools
 mcpServer.registerTool(
   'get-server-info',
   {
     title: 'Get Server Info',
-    description: 'Retrieve information about the SQL Server instance such as version, current update level, edition, and licensing details',
+    description:
+      'Retrieve information about the SQL Server instance such as version, current update level, edition, and licensing details',
     inputSchema: {},
   },
   async () => {
@@ -142,7 +180,8 @@ mcpServer.registerTool(
   'get-collation-mismatches',
   {
     title: 'Get Collation Mismatches',
-    description: 'Retrieve the columns with collation settings that differ from the database default',
+    description:
+      'Retrieve the columns with collation settings that differ from the database default',
     inputSchema: {},
   },
   async () => {
@@ -156,37 +195,4 @@ mcpServer.registerTool(
       ],
     };
   }
-);
-
-// Prompts
-mcpServer.registerPrompt(
-  'optimize-query',
-  {
-    title: 'Optimize Query',
-    description: 'Optimize SQL queries for better performance',
-    argsSchema: { query: z.string() },
-  },
-  () => ({
-    messages: [
-      {
-        role: 'user',
-        content: {
-          type: 'text',
-          text: `
-            You will be provided with an MSSQL query. First, identify the tables involved in the query; it is imperative not to omit any tables. Fetch the schema information for the tables involved in the query using only tools from the 'mssql-dba' MCP server. If no query is provided, inform the user that a query is necessary to proceed. 
-
-            Once you have relevant context about the database, suggest database schema-level optimizations and optimize the query efficiency on the code level. Verify your assumptions and suggestions against the provided data, and take as much time as needed to think.
-
-            Schema-level optimizations should be written in a separate file called "{QUERY FILE NAME}-schema-optimizations.sql". Document every optimization you suggest so the user understands why it is necessary. Always include the code to update statistics on the tables that were optimized.
-
-            Query code changes should be written to the file called "{QUERY FILE NAME}-optimized.sql".
-
-            When creating new indices, ensure they are placed within the context of existing indices. Double-check that your suggestions do not overlap with existing indices. If you notice redundant or unnecessary existing indexes, suggest removing them. If suggested indices are provided, consider them, analyze whether they can provide value, and include them if necessary. If some indices are less valuable, drop them and create recommended options. However, be sure to pay attention to avoid making redundant indices. 
-
-            Focus on strategic index optimization. For example, if the query is parametrized, do not optimize for the current values. Instead, focus on optimization that would benefit the query regardless of the values.
-          `,
-        },
-      },
-    ],
-  })
 );
