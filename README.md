@@ -1,6 +1,6 @@
 # MSSQL DBA MCP Stdio Server
 
-The server provides context to an LLM, empowering models to complete various Database Administration tasks, such as improving table health, optimizing existing indices, and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions, or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
+The server provides context to an LLM, empowering models to complete various Database Administration tasks, such as improving table health, optimizing existing indices, and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions, or support, please join our [Discord](https://discord.gg/G9GGkrykBj)!
 
 ## Table of Contents
 
