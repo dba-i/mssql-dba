@@ -1,6 +1,6 @@
 # MSSQL DBA MCP Stdio Server
 
-The server provides context to an LLM that empowers models to compete various Database Administration tasks, such as improving table health, optimizing existing indices and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
+The server provides context to an LLM, empowering models to complete various Database Administration tasks, such as improving table health, optimizing existing indices, and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions, or support, please join our [Discord](https://discord.gg/Fs3Nqpgx)!
 
 ## Table of Contents
 
@@ -9,18 +9,18 @@ The server provides context to an LLM that empowers models to compete various Da
   - [Usage with MCP Client](#usage-with-mcp-client)
     - [npx](#npx)
 - [Prompts](#prompts)
-  - [Optimize Query](#1-optimize-query)
-  - [Optimize Indices](#2-optimize-indices)
+  - [Optimize Query](#optimize-query)
+  - [Optimize Indices](#optimize-indices)
 - [Tools](#tools)
   - [Table-Level Tools](#table-level-tools)
-    - [Get Tables Info](#1-get-tables-info)
-    - [Get Tables Index Health](#2-get-tables-index-health)
-    - [Get Tables Missing Indices](#3-get-tables-missing-indices)
+    - [Get Tables Info](#get-tables-info)
+    - [Get Tables Index Health](#get-tables-index-health)
+    - [Get Tables Missing Indices](#get-tables-missing-indices)
   - [Server-Level Tools](#server-level-tools)
-    - [Get Server Info](#4-get-server-info)
+    - [Get Server Info](#get-server-info)
   - [Database-Level Tools](#database-level-tools)
-    - [Get Database Collation](#5-get-database-collation)
-    - [Get Collation Mismatches](#6-get-collation-mismatches)
+    - [Get Database Collation](#get-database-collation)
+    - [Get Collation Mismatches](#get-collation-mismatches)
 - [License](#license)
 - [Contact](#contact)
 
