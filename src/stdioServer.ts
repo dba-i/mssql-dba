@@ -54,19 +54,18 @@ mcpServer.registerPrompt(
         role: 'user',
         content: {
           type: 'text',
-          text: `
-            You will be provided with an MSSQL query. First, identify the tables involved in the query; it is imperative not to omit any tables. Fetch the schema information for the tables involved in the query using only tools from the 'mssql-dba' MCP server. If no query is provided, inform the user that a query is necessary to proceed. 
+          text: `You will be provided with an MSSQL query. First, identify the tables involved in the query; it is imperative not to omit any tables. Fetch the schema information for the tables involved in the query using only tools from the 'mssql-dba' MCP server. If no query is provided, inform the user that a query is necessary to proceed. 
 
-            Once you have relevant context about the database, suggest database schema-level optimizations and optimize the query efficiency on the code level. Verify your assumptions and suggestions against the provided data, and take as much time as needed to think.
+Once you have relevant context about the database, suggest database schema-level optimizations and optimize the query efficiency on the code level. Verify your assumptions and suggestions against the provided data, and take as much time as needed to think.
 
-            Schema-level optimizations should be written in a separate file called "{QUERY FILE NAME}-schema-optimizations.sql". Document every optimization you suggest so the user understands why it is necessary. Always include the code to update statistics on the tables that were optimized.
+Schema-level optimizations should be written in a separate file called "{QUERY FILE NAME}-schema-optimizations.sql". Document every optimization you suggest so the user understands why it is necessary. Always include the code to update statistics on the tables that were optimized.
 
-            Save the original query to the new file called "{QUERY FILE NAME}-original.sql" and after that apply query modifications in the original file.
+Save the original query to the new file called "{QUERY FILE NAME}-original.sql" and after that apply query modifications in the original file.
 
-            When creating new indices, ensure they are placed within the context of existing indices. Double-check that your suggestions do not overlap with existing indices. If you notice redundant or unnecessary existing indexes, suggest removing them. If suggested indices are provided, consider them, analyze whether they can provide value, and include them if necessary. If some indices are less valuable, drop them and create recommended options. However, be sure to pay attention to avoid making redundant indices. 
+When creating new indices, ensure they are placed within the context of existing indices. Double-check that your suggestions do not overlap with existing indices. If you notice redundant or unnecessary existing indexes, suggest removing them. If suggested indices are provided, consider them, analyze whether they can provide value, and include them if necessary. If some indices are less valuable, drop them and create recommended options. However, be sure to pay attention to avoid making redundant indices. 
 
-            Focus on strategic index optimization. For example, if the query is parametrized, do not optimize for the current values. Instead, focus on optimization that would benefit the query regardless of the values.
-          `,
+Focus on strategic index optimization. For example, if the query is parametrized, do not optimize for the current values. Instead, focus on optimization that would benefit the query regardless of the values.
+`,
         },
       },
     ],
