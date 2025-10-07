@@ -10,6 +10,7 @@ The server provides context to an LLM that empowers models to compete various Da
     - [npx](#npx)
 - [Prompts](#prompts)
   - [Optimize Query](#1-optimize-query)
+  - [Optimize Indices](#2-optimize-indices)
 - [Tools](#tools)
   - [Table-Level Tools](#table-level-tools)
     - [Get Tables Info](#1-get-tables-info)
@@ -86,7 +87,7 @@ There is a partial list of existing clients at [modelcontextprotocol.io](https:/
 
 ## Prompts
 
-### 1. Optimize Query
+### Optimize Query
 
 - **Name:** `optimize-query`
 - **Description:** Optimize SQL queries for better performance.
@@ -97,6 +98,20 @@ There is a partial list of existing clients at [modelcontextprotocol.io](https:/
   - Analyzes existing indices and identifies potential redundancies or missing indices.
   - Suggests schema-level optimizations and highlights query inefficiencies.
   - Generates optimized query files and schema optimization scripts with detailed documentation.
+
+### Optimize Indices
+
+- **Name:** `optimize-indices`
+- **Description:** Optimize indices on specified tables.
+- **Input:**
+  - `tableNames`: A string containing the names of tables to optimize.
+- **Behavior:**
+  - Fetches information about existing and missing indices for the specified tables.
+  - Identifies inefficient indices and suggests removing them.
+  - Provides options for index consolidation where possible.
+  - Analyzes missing indices and includes them if necessary, while avoiding redundant indices.
+  - Generates index optimization scripts with detailed documentation.
+  - Creates rollback scripts and index maintenance stored procedures.
 
 ## Tools
 
