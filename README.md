@@ -168,4 +168,4 @@ This project is licensed under the Apache License 2.0.
 
 ## Contact
 
-For feedback, questions or support, please join our [Discord](https://discord.gg/Fs3Nqpgx).
+For feedback, questions or support, please join our [Discord](https://discord.gg/G9GGkrykBj).
