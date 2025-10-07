@@ -9,21 +9,22 @@ The server provides context to an LLM that empowers models to compete various Da
   - [Usage with MCP Client](#usage-with-mcp-client)
     - [npx](#npx)
 - [Prompts](#prompts)
-  - [1. Optimize Query](#1-optimize-query)
+  - [Optimize Query](#1-optimize-query)
 - [Tools](#tools)
   - [Table-Level Tools](#table-level-tools)
-    - [1. Get Tables Info](#1-get-tables-info)
-    - [2. Get Tables Index Health](#2-get-tables-index-health)
-    - [3. Get Tables Missing Indices](#3-get-tables-missing-indices)
+    - [Get Tables Info](#1-get-tables-info)
+    - [Get Tables Index Health](#2-get-tables-index-health)
+    - [Get Tables Missing Indices](#3-get-tables-missing-indices)
   - [Server-Level Tools](#server-level-tools)
-    - [4. Get Server Info](#4-get-server-info)
+    - [Get Server Info](#4-get-server-info)
   - [Database-Level Tools](#database-level-tools)
-    - [5. Get Database Collation](#5-get-database-collation)
-    - [6. Get Collation Mismatches](#6-get-collation-mismatches)
+    - [Get Database Collation](#5-get-database-collation)
+    - [Get Collation Mismatches](#6-get-collation-mismatches)
 - [License](#license)
 - [Contact](#contact)
 
 ## Prerequisites
+
 Create a user with these permissions:
 
 ```sql
@@ -103,7 +104,7 @@ The MCP server exposes the following tools organized by scope:
 
 ### Table-Level Tools
 
-#### 1. Get Tables Info
+#### Get Tables Info
 
 - **Name:** `get-tables-info`
 - **Description:** Get the metadata about specified tables.
@@ -112,7 +113,7 @@ The MCP server exposes the following tools organized by scope:
 - **Output:**
   - JSON metadata about the specified tables.
 
-#### 2. Get Tables Index Health
+#### Get Tables Index Health
 
 - **Name:** `get-tables-index-health`
 - **Description:** Assess index health for specified tables.
@@ -121,7 +122,7 @@ The MCP server exposes the following tools organized by scope:
 - **Output:**
   - JSON with index health information for the specified tables.
 
-#### 3. Get Tables Missing Indices
+#### Get Tables Missing Indices
 
 - **Name:** `get-tables-missing-indices`
 - **Description:** Identify missing indices for specified tables.
@@ -132,7 +133,7 @@ The MCP server exposes the following tools organized by scope:
 
 ### Server-Level Tools
 
-#### 4. Get Server Info
+#### Get Server Info
 
 - **Name:** `get-server-info`
 - **Description:** Retrieve information about the SQL Server instance such as version, current update level, edition, and licensing details.
@@ -143,7 +144,7 @@ The MCP server exposes the following tools organized by scope:
 
 ### Database-Level Tools
 
-#### 5. Get Database Collation
+#### Get Database Collation
 
 - **Name:** `get-db-collation`
 - **Description:** Retrieve the collation setting for the current database.
@@ -152,7 +153,7 @@ The MCP server exposes the following tools organized by scope:
 - **Output:**
   - JSON with the database's collation information.
 
-#### 6. Get Collation Mismatches
+#### Get Collation Mismatches
 
 - **Name:** `get-collation-mismatches`
 - **Description:** Retrieve the columns with collation settings that differ from the database default.
