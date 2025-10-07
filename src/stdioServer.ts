@@ -13,20 +13,11 @@ export const mcpServer = new McpServer({
   version: '1.0.0',
 });
 
-if (
-  !process.env.DB_USER ||
-  !process.env.DB_NAME ||
-  !process.env.DB_PASSWORD ||
-  !process.env.DB_HOST
-) {
-  throw new Error('Missing required database environment variables.');
-}
-
 const mssqlConfig: MSSQLConfig = {
-  user: process.env.DB_USER,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_HOST,
+  user: process.env.DB_USER || '',
+  database: process.env.DB_NAME || '',
+  password: process.env.DB_PASSWORD || '',
+  server: process.env.DB_HOST || '',
   options: {
     trustServerCertificate: process.env.TRUST_SERVER_CERTIFICATE === 'true',
     encrypt: process.env.ENCRYPT === 'true',
@@ -54,7 +45,7 @@ mcpServer.registerPrompt(
         role: 'user',
         content: {
           type: 'text',
-          text: `You will be provided with an MSSQL query. First, identify the tables involved in the query; it is imperative not to omit any tables. Fetch the schema information for the tables involved in the query using only tools from the 'mssql-dba' MCP server. If no query is provided, inform the user that a query is necessary to proceed. 
+          text: `You will be provided with an MSSQL query. First, identify the tables involved in the query; it is imperative not to omit any tables. Fetch the schema information for the tables involved in the query using only tools from the 'mssql-dba' MCP server. If you receive an error from any of the tools, stop right away and inform a user about an error. If no query is provided, inform the user that a query is necessary to proceed. 
 
 Once you have relevant context about the database, suggest database schema-level optimizations and optimize the query efficiency on the code level. Verify your assumptions and suggestions against the provided data, and take as much time as needed to think.
 
@@ -82,15 +73,28 @@ mcpServer.registerTool(
     inputSchema: { tableNames: z.array(z.string()) },
   },
   async ({ tableNames }) => {
-    const tablesInfo = await getTablesInfo({ tableNames, db });
-    return {
-      content: [
-        {
-          type: 'text',
-          text: tablesInfo,
-        },
-      ],
-    };
+    try {
+      const tablesInfo = await getTablesInfo({ tableNames, db });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: tablesInfo,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving tables info: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+      };
+    }
   }
 );
 
@@ -102,15 +106,28 @@ mcpServer.registerTool(
     inputSchema: { tableNames: z.array(z.string()) },
   },
   async ({ tableNames }) => {
-    const indexHealth = await getTablesIndexHealth({ tableNames, db });
-    return {
-      content: [
-        {
-          type: 'text',
-          text: indexHealth,
-        },
-      ],
-    };
+    try {
+      const indexHealth = await getTablesIndexHealth({ tableNames, db });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: indexHealth,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving index health: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+      };
+    }
   }
 );
 
@@ -122,15 +139,28 @@ mcpServer.registerTool(
     inputSchema: { tableNames: z.array(z.string()) },
   },
   async ({ tableNames }) => {
-    const missingIndices = await getTablesMissingIndices({ tableNames, db });
-    return {
-      content: [
-        {
-          type: 'text',
-          text: missingIndices,
-        },
-      ],
-    };
+    try {
+      const missingIndices = await getTablesMissingIndices({ tableNames, db });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: missingIndices,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving missing indices: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+      };
+    }
   }
 );
 // Server-level tools
@@ -143,15 +173,28 @@ mcpServer.registerTool(
     inputSchema: {},
   },
   async () => {
-    const serverInfo = await getServerInfo({ db });
-    return {
-      content: [
-        {
-          type: 'text',
-          text: serverInfo,
-        },
-      ],
-    };
+    try {
+      const serverInfo = await getServerInfo({ db });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: serverInfo,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving server info: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+      };
+    }
   }
 );
 // Database-level tools
@@ -163,15 +206,28 @@ mcpServer.registerTool(
     inputSchema: {},
   },
   async () => {
-    const dbCollation = await getDbCollation({ db });
-    return {
-      content: [
-        {
-          type: 'text',
-          text: dbCollation,
-        },
-      ],
-    };
+    try {
+      const dbCollation = await getDbCollation({ db });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: dbCollation,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving database collation: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+      };
+    }
   }
 );
 mcpServer.registerTool(
@@ -183,14 +239,27 @@ mcpServer.registerTool(
     inputSchema: {},
   },
   async () => {
-    const collationMismatches = await getCollationMismatches({ db });
-    return {
-      content: [
-        {
-          type: 'text',
-          text: collationMismatches,
-        },
-      ],
-    };
+    try {
+      const collationMismatches = await getCollationMismatches({ db });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: collationMismatches,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving collation mismatches: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+        ],
+      };
+    }
   }
 );
