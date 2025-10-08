@@ -717,16 +717,16 @@ SELECT
     -- Categories with descriptions (using friendly names)
     sizeCategoryFriendly AS [Size Category],
     -- Index Information (NEW)
-    totalIndexCount AS [Total Indices],
-    healthyIndexCount AS [Healthy Indices],
+    totalIndexCount AS [Total Indexes],
+    healthyIndexCount AS [Healthy Indexes],
     CASE
         WHEN (criticalMissingCount + highMissingCount) > 0 THEN CAST(
             criticalMissingCount + highMissingCount AS VARCHAR
         ) + ' (' + CAST(criticalMissingCount AS VARCHAR) + ' critical, ' + CAST(highMissingCount AS VARCHAR) + ' high)'
         ELSE '0'
-    END AS [Missing Indices (High/Critical)],
-    unusedIndexCount AS [Unused Indices],
-    fragmentedIndexCount AS [Fragmented Indices],
+    END AS [Missing Indexes (High/Critical)],
+    unusedIndexCount AS [Unused Indexes],
+    fragmentedIndexCount AS [Fragmented Indexes],
     indexHealthStatus AS [Index Health Status],
     -- indexHealthStatusDescription as [Index Health Status Description],
     CASE

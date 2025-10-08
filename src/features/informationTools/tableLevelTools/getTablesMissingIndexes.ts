@@ -1,5 +1,5 @@
 import { MSSQL } from '../../../MSSQL.js';
-export async function getTablesMissingIndices({
+export async function getTablesMissingIndexes({
   tableNames,
   db,
 }: {

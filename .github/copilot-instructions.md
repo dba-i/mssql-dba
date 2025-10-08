@@ -16,7 +16,7 @@ This is a **Model Context Protocol (MCP) server** that provides SQL Server datab
 ```
 src/features/informationTools/
 ├── schemaLevelTools/     # Database-wide analysis (getActiveTablesInfo)
-└── tableLevelTools/      # Specific table analysis (getTablesInfo, getTablesIndexHealth, getTablesMissingIndices)
+└── tableLevelTools/      # Specific table analysis (getTablesInfo, getTablesIndexHealth, getTablesMissingIndexes)
 ```
 
 ## Development Patterns

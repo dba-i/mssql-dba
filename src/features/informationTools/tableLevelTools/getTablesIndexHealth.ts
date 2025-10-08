@@ -214,6 +214,8 @@ SELECT
         WHEN fragmentationPercent > 0 THEN FORMAT(fragmentationPercent, 'N1')
         ELSE 'N/A'
     END AS [Fragmentation %],
+    -- Page count with formatting
+    FORMAT(pageCount, 'N0') AS [Page Count],
     -- Size information in human-readable format
     CASE
         WHEN indexSizeBytes >= 1073741824 THEN FORMAT(
@@ -332,7 +334,7 @@ WHERE
 
   const result = await db.executeQuery({ query });
   if (!result || result.length === 0) {
-    return 'No indices found with the specified tables.';
+    return 'No indexes found with the specified tables.';
   }
   return JSON.stringify(result, null, 2);
 }

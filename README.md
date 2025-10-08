@@ -1,6 +1,6 @@
 # MSSQL DBA MCP Stdio Server
 
-The server provides context to an LLM, empowering models to complete various Database Administration tasks, such as improving table health, optimizing existing indices, and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions, or support, please join our [Discord](https://discord.gg/G9GGkrykBj)!
+The server provides context to an LLM, empowering models to complete various Database Administration tasks, such as improving table health, optimizing existing indexes, and identifying missing ones. The server aims to find the best way to provide context so the LLMs can maximize their potential in completing DBA tasks. For feedback, questions, or support, please join our [Discord](https://discord.gg/G9GGkrykBj)!
 
 ## Table of Contents
 
@@ -10,12 +10,12 @@ The server provides context to an LLM, empowering models to complete various Dat
     - [npx](#npx)
 - [Prompts](#prompts)
   - [Optimize Query](#optimize-query)
-  - [Optimize Indices](#optimize-indices)
+  - [Optimize indexes](#optimize-indexes)
 - [Tools](#tools)
   - [Table-Level Tools](#table-level-tools)
     - [Get Tables Info](#get-tables-info)
     - [Get Tables Index Health](#get-tables-index-health)
-    - [Get Tables Missing Indices](#get-tables-missing-indices)
+    - [Get Tables Missing indexes](#get-tables-missing-indexes)
   - [Server-Level Tools](#server-level-tools)
     - [Get Server Info](#get-server-info)
   - [Database-Level Tools](#database-level-tools)
@@ -95,21 +95,21 @@ There is a partial list of existing clients at [modelcontextprotocol.io](https:/
   - `query`: The SQL query to optimize.
 - **Behavior:**
   - Identifies tables involved in the query and fetches comprehensive schema information.
-  - Analyzes existing indices and identifies potential redundancies or missing indices.
+  - Analyzes existing indexes and identifies potential redundancies or missing indexes.
   - Suggests schema-level optimizations and highlights query inefficiencies.
   - Generates optimized query files and schema optimization scripts with detailed documentation.
 
-### Optimize Indices
+### Optimize indexes
 
-- **Name:** `optimize-indices`
-- **Description:** Optimize indices on specified tables.
+- **Name:** `optimize-indexes`
+- **Description:** Optimize indexes on specified tables.
 - **Input:**
   - `tableNames`: A string containing the names of tables to optimize.
 - **Behavior:**
-  - Fetches information about existing and missing indices for the specified tables.
-  - Identifies inefficient indices and suggests removing them.
+  - Fetches information about existing and missing indexes for the specified tables.
+  - Identifies inefficient indexes and suggests removing them.
   - Provides options for index consolidation where possible.
-  - Analyzes missing indices and includes them if necessary, while avoiding redundant indices.
+  - Analyzes missing indexes and includes them if necessary, while avoiding redundant indexes.
   - Generates index optimization scripts with detailed documentation.
   - Creates rollback scripts and index maintenance stored procedures.
 
@@ -137,14 +137,14 @@ The MCP server exposes the following tools organized by scope:
 - **Output:**
   - JSON with index health information for the specified tables.
 
-#### Get Tables Missing Indices
+#### Get Tables Missing Indexes
 
-- **Name:** `get-tables-missing-indices`
-- **Description:** Identify missing indices for specified tables.
+- **Name:** `get-tables-missing-indexes`
+- **Description:** Identify missing indexes for specified tables.
 - **Input:**
-  - `tableNames` (array of strings): Names of the tables to check for missing indices.
+  - `tableNames` (array of strings): Names of the tables to check for missing indexes.
 - **Output:**
-  - JSON with missing indices.
+  - JSON with missing indexes.
 
 ### Server-Level Tools
 
